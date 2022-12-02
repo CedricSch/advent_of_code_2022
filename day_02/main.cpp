@@ -3,12 +3,6 @@
 #include <vector>
 #include <tuple>
 
-enum class Result {
-  WIN,
-  DRAW,
-  LOSS
-};
-
 enum class Shape {
     ROCK = 1,
     PAPER = 2,
@@ -27,8 +21,29 @@ enum class Shape {
  * - Paper defeats Rock
  *
  * */
+static Shape get_loss_shape(Shape const& opponent) {
+    if(opponent == Shape::ROCK) return Shape::SCISSORS;
+    else if(opponent == Shape::PAPER) return Shape::ROCK;
+    else return Shape::PAPER;
+}
 
-unsigned int get_points(std::tuple<Shape, Shape> const& shapes) {
+static Shape get_win_shape(Shape const& opponent) {
+    if(opponent == Shape::ROCK) return Shape::PAPER;
+    else if(opponent == Shape::PAPER) return Shape::SCISSORS;
+    else return Shape::ROCK;
+}
+
+static void set_strategy_shape(std::tuple<Shape, Shape>& shapes) {
+    auto& opponent = std::get<0>(shapes);
+    // X = loss, Y = draw, Z = win
+    auto& player = std::get<1>(shapes);
+
+    if(player == Shape::ROCK) player = get_loss_shape(opponent); 
+    else if(player == Shape::PAPER) player = opponent; 
+    else player = get_win_shape(opponent);
+}
+
+static unsigned int get_points(std::tuple<Shape, Shape> const& shapes) {
     auto opponent = std::get<0>(shapes);
     auto player = std::get<1>(shapes);
 
@@ -57,6 +72,7 @@ int main() {
      
     // read strategy guide from file into vector
     while(std::getline(file, line)) {
+        // ofc this assumes valid input
         std::tuple<Shape, Shape> current_round{};
         if(line[0] == 'A') {
             std::get<0>(current_round) = Shape::ROCK;
@@ -72,13 +88,13 @@ int main() {
         } else if(line[2] == 'Z') {
             std::get<1>(current_round) = Shape::SCISSORS;
         } 
-        // ofc this assumes valid input
         strategy_guide.push_back(current_round);
     }
 
     unsigned int total_score{0};
 
-    for(auto const& shape : strategy_guide) {
+    for(auto& shape : strategy_guide) {
+      set_strategy_shape(shape);
       total_score += get_points(shape);
     }
 
