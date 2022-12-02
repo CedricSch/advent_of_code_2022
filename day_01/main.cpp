@@ -12,7 +12,8 @@ int main() {
     std::string line;
     std::ifstream file("data.txt");
 
-    if(file.fail()) exit(1);
+    if(file.fail()) return 1;
+     
     while(std::getline(file, line)) {
         if(line.empty()) {
             // new elve in next line
