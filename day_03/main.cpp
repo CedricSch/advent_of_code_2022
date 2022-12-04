@@ -71,7 +71,6 @@ int main() {
   if (file.fail())
     return 1;
 
-  // read strategy guide from file into vector
   while (std::getline(file, line)) {
     lines[counter++] = line;
     if (counter >= 3) {
