@@ -7,16 +7,16 @@
 // 10000000000000000000000001 10000000000000000000000001 -> Z, A and z, a are
 // set.
 static std::bitset<52> create_character_index(std::string const &line) {
-  static unsigned int z_ascii_value = 97;
-  static unsigned int Z_ascii_value = 65;
+  static unsigned int a_ascii_value = 97;
+  static unsigned int A_ascii_value = 65;
 
   std::bitset<52> character_index;
   std::bitset<52> one{0x1};
 
   for (auto const &c : line) {
     unsigned char priority = static_cast<unsigned char>(c);
-    auto shift = std::isupper(priority) ? priority + 27 - Z_ascii_value
-                                        : priority + 1 - z_ascii_value;
+    auto shift = std::isupper(priority) ? priority + 27 - A_ascii_value
+                                        : priority + 1 - a_ascii_value;
     character_index |= (one << shift - 1);
   }
 
