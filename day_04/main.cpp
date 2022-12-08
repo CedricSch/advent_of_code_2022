@@ -41,6 +41,17 @@ static bool is_pair_fully_contained(number_pair const &pair_one, number_pair con
          std::get<0>(pair_two) >= std::get<0>(pair_one) and std::get<1>(pair_two) <= std::get<1>(pair_one);
 }
 
+static bool is_overlapping(number_pair const &pair_one, number_pair const &pair_two) {
+    auto s1n1 = std::get<0>(pair_one);
+    auto s1n2 = std::get<1>(pair_one);
+    auto s2n1 = std::get<0>(pair_two);
+    auto s2n2 = std::get<1>(pair_two);
+
+    bool not_overlapping = (s1n2 < s2n1 and s1n1 < s2n2) or (s1n1 > s2n2 and s1n2 > s2n2);
+
+    return not not_overlapping or is_pair_fully_contained(pair_one, pair_two);
+}
+
 int main() {
   std::string line;
   std::ifstream file("input.txt");
@@ -54,12 +65,14 @@ int main() {
     section_pairs.push_back(get_section_pair(line));
   }
 
-  std::size_t counter{0};
+  std::size_t counter1{0};
+  std::size_t counter2{0};
+
   for (auto const &pairs : section_pairs) {
-    if (is_pair_fully_contained(std::get<0>(pairs), std::get<1>(pairs))) {
-      counter++;
-    }
+    if (is_pair_fully_contained(std::get<0>(pairs), std::get<1>(pairs))) counter1++;
+    if (is_overlapping(std::get<0>(pairs), std::get<1>(pairs))) counter2++;
   }
 
-  std::cout << counter << " pairs are fully contained\n";
+  std::cout << "Part One: " << counter1 << "\n";
+  std::cout << "Part Two: " << counter2 << std::endl;
 }
