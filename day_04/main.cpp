@@ -47,9 +47,7 @@ static bool is_overlapping(number_pair const &pair_one, number_pair const &pair_
     auto s2n1 = std::get<0>(pair_two);
     auto s2n2 = std::get<1>(pair_two);
 
-    bool not_overlapping = (s1n2 < s2n1 and s1n1 < s2n2) or (s1n1 > s2n2 and s1n2 > s2n2);
-
-    return not not_overlapping or is_pair_fully_contained(pair_one, pair_two);
+    return (s1n1 <= s2n2 and s2n1 <= s1n2) or is_pair_fully_contained(pair_one, pair_two);
 }
 
 int main() {
