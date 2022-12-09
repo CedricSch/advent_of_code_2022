@@ -10,7 +10,7 @@
 struct instruction {
     int from_stack;
     int to_stack;
-    int amount;
+    std::size_t amount;
 };
 
 static void parse_crates(std::string const& line, std::map<unsigned int, std::vector<unsigned char>>& crates) {
@@ -34,7 +34,8 @@ static void parse_crates(std::string const& line, std::map<unsigned int, std::ve
 }
 
 static void parse_instructions(std::string const& line, std::vector<instruction>& instructions) {
-    int amount, from, to;
+    std::size_t amount;
+    int from{0}, to{0};
     std::string trash{};
 
     std::istringstream ss(line); 
