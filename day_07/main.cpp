@@ -90,7 +90,7 @@ int main() {
       // if we do a ls we only can work with the next line(s)
       if(command_type == CommandType::LS) continue;
 
-      // go one directory down
+      // go one directory up
       if(command_type == CommandType::CD and command_arg == "..") {
           current_directory = current_directory->parent;
       } else if(command_type == CommandType::CD) {
