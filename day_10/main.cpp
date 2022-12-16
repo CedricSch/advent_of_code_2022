@@ -9,7 +9,7 @@
 static void part_two(std::map<unsigned int, int> const& register_content) {
     for(auto [cycle, content] : register_content) {
         unsigned int normalized_cycle = (cycle -1) % 40;
-        if(normalized_cycle == content-1 or normalized_cycle == content or normalized_cycle == content+1) std::cout << "#";
+        if(normalized_cycle >= content-1 and normalized_cycle <= content+1) std::cout << "#";
         else std::cout << ".";
 
         if(cycle % 40 == 0) std::cout << "\n";
