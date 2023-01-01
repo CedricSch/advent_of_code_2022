@@ -11,6 +11,8 @@
 #include <limits>
 
 static int const MAX_COST = std::numeric_limits<int>::max();
+static int const ROWS = 41;
+static int const COLS = 172;
 
 struct location {
     int x{-1};
@@ -56,8 +58,9 @@ static std::vector<location> get_neighbours(int currentX, int currentY, std::vec
 }
 
 static location part_one(location const& start,  location const& end, std::vector<std::string> const& height_map) {
-    std::unordered_set<location> visited_locations{};
-    std::unordered_set<location> already_pushed{};
+    int costs[ROWS][COLS] = {};
+    bool visited_locations[ROWS][COLS] = {};
+    bool already_pushed[ROWS][COLS] = {};
 
     std::priority_queue<location, std::vector<location>, std::greater<location>> to_visit;
     to_visit.push(start);
@@ -66,45 +69,39 @@ static location part_one(location const& start,  location const& end, std::vecto
         auto current_location = to_visit.top();
         to_visit.pop();
 
-        visited_locations.insert(current_location);
+        visited_locations[current_location.y][current_location.x] = true;
+
         auto possible_neighbours = get_neighbours(current_location.x, current_location.y, height_map);
 
         // find good candidate
         for( location loc : possible_neighbours) {
-            if(visited_locations.contains(loc) or already_pushed.contains(loc)) continue;
+            if(visited_locations[loc.y][loc.x] or already_pushed[loc.y][loc.x]) continue;
 
             loc.cost = current_location.cost + 1;
+
+            costs[loc.y][loc.x] = loc.cost;
+            already_pushed[loc.y][loc.x] = true;
+             
             to_visit.push(loc);
-            already_pushed.insert(loc);
         }
     }
 
-    if(auto ptr = visited_locations.find(end); ptr != visited_locations.end()) return *ptr;
-    else return location{ .cost = MAX_COST };
+    return { .x = end.x, .y = end.y, .cost = costs[end.y][end.x] };
 }
 
 static location part_two(location const& end, std::vector<std::string> const& height_map) { 
-    std::vector<location> locations{};
+    int min_cost = MAX_COST;
 
     // get all locations with elevation a
     for(int row{0}; row < height_map.size(); row++) {
         for(int col{0}; col < height_map[0].size(); col++) {
             if(height_map[row][col] == 'a') {
-              locations.push_back({.x = col, .y = row, .cost = 0});
+              auto result = part_one({ .x = col, .y = row, .cost = 0 }, end, height_map);
+              if(result.cost > 0) min_cost = std::min(result.cost, min_cost);
             }
         }
     }
-
-    location min{ .cost = MAX_COST };
-
-    // do stupid stuff
-    for(location const& start : locations) {
-        auto result = part_one(start, end, height_map);
-        if(min.cost > result.cost)
-            min = result;
-    }
-
-    return min;
+    return { .x = end.x, .y = end.y, .cost = min_cost };
 }
 
 int main() {
