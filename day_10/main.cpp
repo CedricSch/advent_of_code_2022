@@ -2,8 +2,6 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <tuple>
-#include <ranges>
 #include <map>
 
 static void part_two(std::map<unsigned int, int> const& register_content) {
@@ -19,7 +17,7 @@ static void part_two(std::map<unsigned int, int> const& register_content) {
 int main() {
     std::vector<std::string> instructions;
 
-    std::ifstream file("input-final.txt");
+    std::ifstream file("./input/input_day10.txt");
 
     if(file.fail()) return 1;
 
@@ -50,8 +48,7 @@ int main() {
     unsigned int signal_strength = 20 * register_content[20] + 60 * register_content[60] + 100 * register_content[100] + 
                                   140 * register_content[140] + 180 * register_content[180] + 220 * register_content[220];
 
-    if(signal_strength != 15680) std::cout << "Your signal strength is wrong!!!" << std::endl;
-    else std::cout << "Signal strength: " << signal_strength << std::endl;
+    std::cout << "Part one: " << signal_strength << std::endl;
 
     part_two(register_content);
 }

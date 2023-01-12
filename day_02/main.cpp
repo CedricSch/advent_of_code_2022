@@ -65,23 +65,24 @@ static unsigned int get_points(std::tuple<Shape, Shape> const &shapes) {
            (opponent == Shape::SCISSORS and player == Shape::PAPER) or
            (opponent == Shape::PAPER and player == Shape::ROCK)) {
     return POINTS_LOSS + static_cast<unsigned int>(player);
-  } else
-    return POINTS_WIN + static_cast<unsigned int>(player);
+  } 
+
+  return POINTS_WIN + static_cast<unsigned int>(player);
 }
 
 int main() {
   std::vector<std::tuple<Shape, Shape>> strategy_guide{};
 
   std::string line;
-  std::ifstream file("input.txt");
+  std::ifstream file("./input/input_day02.txt");
 
   if (file.fail())
     return 1;
 
-  // read strategy guide from file into vector
   while (std::getline(file, line)) {
     // ofc this assumes valid input
     std::tuple<Shape, Shape> current_round{};
+
     if (line[0] == 'A') {
       std::get<0>(current_round) = Shape::ROCK;
     } else if (line[0] == 'B') {
@@ -106,5 +107,5 @@ int main() {
     total_score += get_points(shape);
   }
 
-  std::cout << total_score << std::endl;
+  std::cout << "Part two: " << total_score << std::endl;
 }

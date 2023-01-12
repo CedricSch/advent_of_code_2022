@@ -10,7 +10,7 @@ int main() {
   long elve_calorie_counter{0};
 
   std::string line;
-  std::ifstream file("input.txt");
+  std::ifstream file("./input/input_day01.txt");
 
   if (file.fail())
     return 1;
@@ -23,16 +23,7 @@ int main() {
       continue;
     }
 
-    try {
-      elve_calorie_counter += std::stol(line);
-    } catch (std::invalid_argument const &ex) {
-      std::cout << "Unable to convert: " + line + " to an integer."
-                << std::endl;
-      return 1;
-    } catch (std::out_of_range const &ex) {
-      std::cout << "Integer: " + line + " out of range." << std::endl;
-      return 1;
-    }
+    elve_calorie_counter += std::stol(line);
   }
 
   // Get the three elves with the most calories
@@ -64,9 +55,12 @@ int main() {
     }
   }
 
-  std::cout << std::get<0>(elve_1) << " " << std::get<1>(elve_1) << "\n";
-  std::cout << std::get<0>(elve_2) << " " << std::get<1>(elve_2) << "\n";
-  std::cout << std::get<0>(elve_3) << " " << std::get<1>(elve_3) << "\n";
+  std::size_t top_one_calories = std::get<1>(elve_1); 
+  std::size_t top_two_calories = std::get<1>(elve_2); 
+  std::size_t top_three_calories = std::get<1>(elve_3); 
+
+  std::cout << "Part one: " << top_one_calories << std::endl;
+  std::cout << "Part two: " << (top_one_calories + top_two_calories + top_three_calories) << std::endl;
 
   // The easy route:
   // std::sort(elve_calories.begin(), elve_calories.end(),

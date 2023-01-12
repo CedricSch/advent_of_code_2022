@@ -1,0 +1,18 @@
+name: C++ Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build all days
+        run: |
+            for day in day_??; 
+            do
+               echo "Building day '$day'"
+              ./build.sh "$day" &>/dev/null
+            done 

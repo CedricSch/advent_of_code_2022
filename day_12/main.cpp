@@ -33,11 +33,6 @@ namespace std {
     };
 };
 
-static std::ostream& operator<<(std::ostream& out, location const& p) {
-    out << "(" << p.x << ", " << p.y << ", " << p.cost << ")";
-    return out;
-}
-
 static std::vector<location> get_neighbours(int currentX, int currentY, std::vector<std::string> const& height_map) {
     std::vector<location> neighbours{};
 
@@ -57,7 +52,7 @@ static std::vector<location> get_neighbours(int currentX, int currentY, std::vec
     return neighbours;
 }
 
-static location part_one(location const& start,  location const& end, std::vector<std::string> const& height_map) {
+static int part_one(location const& start,  location const& end, std::vector<std::string> const& height_map) {
     int costs[ROWS][COLS] = {};
     bool visited_locations[ROWS][COLS] = {};
     bool already_pushed[ROWS][COLS] = {};
@@ -86,10 +81,10 @@ static location part_one(location const& start,  location const& end, std::vecto
         }
     }
 
-    return { .x = end.x, .y = end.y, .cost = costs[end.y][end.x] };
+    return costs[end.y][end.x];
 }
 
-static location part_two(location const& end, std::vector<std::string> const& height_map) { 
+static int part_two(location const& end, std::vector<std::string> const& height_map) { 
     int min_cost = MAX_COST;
 
     // get all locations with elevation a
@@ -97,15 +92,16 @@ static location part_two(location const& end, std::vector<std::string> const& he
         for(int col{0}; col < height_map[0].size(); col++) {
             if(height_map[row][col] == 'a') {
               auto result = part_one({ .x = col, .y = row, .cost = 0 }, end, height_map);
-              if(result.cost > 0) min_cost = std::min(result.cost, min_cost);
+              if(result > 0) min_cost = std::min(result, min_cost);
             }
         }
     }
-    return { .x = end.x, .y = end.y, .cost = min_cost };
+
+    return min_cost;
 }
 
 int main() {
-    std::ifstream file("input-final.txt");
+    std::ifstream file("./input/input_day12.txt");
 
     if(file.fail()) return 1;
 
@@ -129,6 +125,6 @@ int main() {
         }
     }
 
-    std::cout << part_one(start, end, height_map) << std::endl;
-    std::cout << part_two(end, height_map) << std::endl;
+    std::cout << "Part one: " << part_one(start, end, height_map) << std::endl;
+    std::cout << "Part two: " << part_two(end, height_map) << std::endl;
 }

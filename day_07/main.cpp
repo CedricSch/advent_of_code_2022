@@ -54,7 +54,7 @@ static void part_two(Directory const* const start, unsigned int currently_used_s
     part_two_rec(start, unused_space, candidates);
 
     auto min = std::min_element(candidates.begin(), candidates.end());
-    std::cout << "Min. element to free space: " << *min << std::endl;
+    std::cout << "Part two: " << *min << std::endl;
 }
 
 using CommandTypeResult = std::tuple<CommandType, std::string>;
@@ -71,7 +71,7 @@ static CommandTypeResult get_command(std::string const& line) {
 
 int main() {
   std::string line;
-  std::ifstream file("input-final.txt");
+  std::ifstream file("./input/input_day07.txt");
 
   if (file.fail())
     return 1;
@@ -119,7 +119,7 @@ int main() {
   unsigned int part_one_sum{0};
   part_one(root, part_one_sum);
 
-  std::cout << "Part one - total size of directories <= 100'000: " << part_one_sum << std::endl;
+  std::cout << "Part one: " << part_one_sum << std::endl;
 
   part_two(root, root->size);
 

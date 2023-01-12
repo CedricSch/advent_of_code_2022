@@ -73,7 +73,7 @@ static void apply_instructions_part_two(std::vector<instruction> const& instruct
 
 int main() {
   std::string line;
-  std::ifstream file("input.txt");
+  std::ifstream file("input/input_day05.txt");
   std::map<unsigned int, std::vector<unsigned char>> crates{};
   std::vector<instruction> instructions{};
 
@@ -101,5 +101,5 @@ int main() {
      message[counter++] = value.back();
   }
 
-  std::cout << "Message: " << message << std::endl;
+  std::cout << "Part two: " << message << std::endl;
 }

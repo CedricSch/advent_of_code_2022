@@ -6,7 +6,7 @@
 int main() {
     std::vector<std::string> tree_map = {};
 
-    std::ifstream file("input-final.txt");
+    std::ifstream file("./input/input_day08.txt");
 
     if(file.fail()) return 1;
 
@@ -74,6 +74,6 @@ int main() {
        }
     }
     
-    std::cout << "Total trees visible: " << total_trees_visible << std::endl;
-    std::cout << "Max. scenic score:" << max_scenic_score << std::endl;
+    std::cout << "Part one: " << total_trees_visible << std::endl;
+    std::cout << "Part two: " << max_scenic_score << std::endl;
 }

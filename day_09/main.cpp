@@ -42,7 +42,6 @@ static void move_diagonal(int headX, int headY, int& tailX, int& tailY) {
     int diffX = headX - tailX;
     int diffY = headY - tailY;
 
-    // head is left from tail
     if(diffX < 0 and diffY < 0) {
         tailX--;
         tailY--;
@@ -61,7 +60,7 @@ static void move_diagonal(int headX, int headY, int& tailX, int& tailY) {
 static void part_one(std::vector<command> const& commands) {
     std::vector<std::pair<int, int>> already_visited{};
 
-    // start position is in the last row first column
+    // start position is not important
     int headY = 100;
     int headX = 100;
 
@@ -93,11 +92,11 @@ static void part_one(std::vector<command> const& commands) {
         }
     }
 
-    std::cout << counter;
+    std::cout << counter << std::endl;
 }
 
 int main() {
-    std::ifstream file("input-final.txt");
+    std::ifstream file("./input/input_day09.txt");
 
     if(file.fail()) return 1;
 

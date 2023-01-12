@@ -4,14 +4,12 @@
 #include <string>
 
 // Set a bit for every character Z-A a-z
-// 10000000000000000000000001 10000000000000000000000001 -> Z, A and z, a are
-// set.
 static std::bitset<52> create_character_index(std::string const &line) {
-  static unsigned int a_ascii_value = 97;
-  static unsigned int A_ascii_value = 65;
+  static const unsigned int a_ascii_value = 97;
+  static const unsigned int A_ascii_value = 65;
+  static const std::bitset<52> one{0x1};
 
   std::bitset<52> character_index;
-  std::bitset<52> one{0x1};
 
   for (auto const &c : line) {
     unsigned char priority = static_cast<unsigned char>(c);
@@ -25,6 +23,7 @@ static std::bitset<52> create_character_index(std::string const &line) {
 
 static unsigned int part_one(std::string const &line) {
   unsigned int total_item_priorities{0};
+
   auto index1 = create_character_index(line.substr(0, line.size() / 2));
   auto index2 = create_character_index(line.substr(line.size() / 2));
 
@@ -46,8 +45,8 @@ static unsigned int part_two(std::string const (&lines)[3]) {
   auto index2 = create_character_index(lines[1]);
   auto index3 = create_character_index(lines[2]);
 
-  auto common_item = index1 & index2 &
-                     index3; // & every index to get the common character (item)
+  // and every index to get the common character (item)
+  auto common_item = index1 & index2 & index3; 
 
   for (std::size_t index = 0; index < 52; index++) {
     if (common_item[index]) {
@@ -62,7 +61,7 @@ static unsigned int part_two(std::string const (&lines)[3]) {
 int main() {
   std::string lines[3];
   std::string line;
-  std::ifstream file("input.txt");
+  std::ifstream file("./input/input_day03.txt");
 
   unsigned int total_item_priorities_part_one{0};
   unsigned int total_item_priorities_part_two{0};
@@ -80,6 +79,6 @@ int main() {
     total_item_priorities_part_one += part_one(line);
   }
 
-  std::cout << "[Part one] Sum of priorities: " << total_item_priorities_part_one << std::endl;
-  std::cout << "[Part two] Sum of priorities: " << total_item_priorities_part_two << std::endl;
+  std::cout << "Part one: " << total_item_priorities_part_one << std::endl;
+  std::cout << "Part two: " << total_item_priorities_part_two << std::endl;
 }
