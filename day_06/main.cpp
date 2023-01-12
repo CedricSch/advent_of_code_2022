@@ -3,7 +3,7 @@
 #include <string>
 
 // naive approach
-static bool has_uniqe_chars(std::string const& window) {
+static bool has_unique_chars(std::string const& window) {
     for(std::size_t i{0}; i < window.size(); i++) {
         for(std::size_t j{i+1}; j < window.size(); j++) {
             if(window[i] == window[j]) return false;
@@ -15,7 +15,7 @@ static bool has_uniqe_chars(std::string const& window) {
 static int get_start_of_packet_marker_part_two(std::size_t start, std::string const& line) {
     // Slide the start + 1 window to the right one character at the the time.
     for(std::size_t i{start}; i < line.size(); i++) {
-        if(has_uniqe_chars(line.substr(i-start, start+1))) {
+        if(has_unique_chars(line.substr(i-start, start+1))) {
             return i+1;
         }
     }
