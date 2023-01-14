@@ -2,9 +2,11 @@
 #include <iostream>
 #include <tuple>
 #include <vector>
+#include "test.h"
+
+static const unsigned int EXPECTED_VALUE_PART_TWO = 13'509;
 
 enum class Shape { ROCK = 1, PAPER = 2, SCISSORS = 3 };
-
 /*
  * Opponent:
  * A = Rock, B = Paper, C = Scissors
@@ -107,5 +109,5 @@ int main() {
     total_score += get_points(shape);
   }
 
-  std::cout << "Part two: " << total_score << std::endl;
+  equals(EXPECTED_VALUE_PART_TWO, total_score);
 }
